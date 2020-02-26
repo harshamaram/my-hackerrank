@@ -13,6 +13,14 @@ public class JavaRegexIPAddress {
 	static String REGEX = 
 			"^(([0-9]{1,2}|[0-1][0-9]{2}|2(?=[0-4])[0-9]{2}|2(?=5(?=[0-5]))[0-9][0-9])\\.){3}"
 			+ "([0-9]{1,2}|[0-1][0-9]{2}|2(?=[0-4])[0-9]{2}|2(?=5(?=[0-5]))[0-9][0-9])$";
+	
+	static String REGEX2 = 
+			  "(([0-1][0-9][0-9]|"
+			  + "0?[0-9][0-9]|"
+			  + "[0-9]|"
+			  + "2[0-5][0-5]|"
+			  + "2[0-4][0-9])\\.){3}"
+			+  "([0-1][0-9][0-9]|0*[0-9][0-9]|[0-9]|2[0-5][0-5]|2[0-4][0-9])";
 	static Pattern pattern = Pattern.compile(REGEX);
 	
 	public static void main(String[] args) {
@@ -35,6 +43,7 @@ public class JavaRegexIPAddress {
 		map.put("23.45.12.56", true);
 		map.put("000.12.234.23.23", false);
 		map.put("666.666.23.23", false);
+		map.put("666.0666.23.23", false);
 		map.put(".213.123.23.32", false);
 		map.put("23.45.22.32.", false);
 		map.put("267.45.22.32", false);
