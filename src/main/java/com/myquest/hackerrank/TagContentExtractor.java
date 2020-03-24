@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * https://www.hackerrank.com/challenges/tag-content-extractor/problem
  */
 public class TagContentExtractor {
 
+	static List<String> list = new ArrayList<>();
+	
 	public static void main(String[] args) throws Exception {
 		
 //		String str = "<h1><h1>Sanjay has no watch</h1></h1><par>So wait for a while<par>";
@@ -27,13 +31,13 @@ public class TagContentExtractor {
 				"<>hello</><h>dim</h>>>>>"
 		};
 		
-			
-		List<String> list = new ArrayList<>(); 
-		for(int i=0; i<str.length; i++) {
-			System.out.println("---- processing: " + str[i]);
-			list.addAll(extractTagContent(str[i]));
-		}
 		
+		process(str);
+		list.forEach(s -> System.out.println(s));
+		
+		list.clear();
+		System.out.println("------ dirty method ---------");
+		processDirtyMethod(str);
 		list.forEach(s -> System.out.println(s));
 			
 //		System.out.println("   tags: " + tags);
@@ -41,6 +45,33 @@ public class TagContentExtractor {
 
 	}
 	
+	private static void processDirtyMethod(String[] str) {
+		for(int i=0; i<str.length; i++) {
+			System.out.println("---- processing: " + str[i]);
+			list.addAll(extractTagContent(str[i]));
+		}
+		
+	}
+
+	private static void process(String[] str) {
+		Pattern pattern = Pattern.compile("<(.+)>([^<]+)</\\1>");
+
+		Matcher matcher;
+		boolean matchFound = false;
+		for (int i = 0; i < str.length; i++) {
+			matcher = pattern.matcher(str[i]);
+			matchFound = false;
+			while (matcher.find()) {
+				list.add(matcher.group(2));
+				matchFound = true;
+			}
+			if (!matchFound) {
+				list.add("None");
+			}
+		}
+
+	}
+
 	private static List<String> extractTagContent(String str) {
 		
 		List<String> list = new ArrayList<>();
